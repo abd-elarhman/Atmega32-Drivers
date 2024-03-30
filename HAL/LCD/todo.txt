@@ -1,0 +1,39 @@
+void LCD_voidSendCommand(u8 Copy_u8Command);
+void LCD_voidSendData(u8 Copy_u8Data);
+void LCD_voidInit(void);
+void LCD_voidWriteString(u8 *Copy_u8String);
+void LCD_voidSetCursor(u8 Copy_u8Row,u8 Copy_u8Cell);
+void LCD_voidWriteNumberWithDelay(u32 Copy_u32Number,u16 Copy_u16Delay);
+void LCD_voidstringShiftleft(u8 *Copy_u8String,u8 Copy_u8Row,u8 Copy_u8Cell,u16 Copy_u16Delay)
+{
+    u8 i=0;
+    while(Copy_u8String[i]!='\0')
+    {
+        LCD_voidSetCursor(Copy_u8Row,Copy_u8Cell);
+        LCD_voidWriteString(Copy_u8String+i);
+        i++;
+        _delay_ms(Copy_u16Delay);
+    }
+}
+
+void LCD_voidWriteNumber(u32 Copy_u32Number);
+void LCD_voidClear(void);
+
+void LCD_voidBlinkWithDelay(u8 Copy_u8Char,u8 Copy_u8BlinkCounter,u16 Copy_u16Delay);
+void LCD_voidBlink(u8 Copy_u8Char,u8 Copy_u8BlinkCounter,u8 Copy_u8Row,u8 Copy_u8Cell);
+void LCD_voidCreateChar(u8 Copy_u8CharIndex,u8 *Copy_u8CharPattern);
+void LCD_voidWriteCustomChar(u8 Copy_u8CharIndex);
+void LCD_voidWriteCustomString(u8 *Copy_u8String);
+void LCD_voidWriteCustomStringWithDelay(u8 *Copy_u8String,u16 Copy_u16Delay);
+void LCD_voidWriteCustomCharWithDelay(u8 Copy_u8CharIndex,u16 Copy_u16Delay);
+void LCD_voidWriteCustomCharWithDelayAndPosition(u8 Copy_u8CharIndex,u8 Copy_u8Row,u8 Copy_u8Cell,u16 Copy_u16Delay);
+void LCD_voidWriteCustomStringWithDelayAndPosition(u8 *Copy_u8String,u8 Copy_u8Row,u8 Copy_u8Cell,u16 Copy_u16Delay);
+void LCD_voidWriteCustomStringWithDelayAndPositionAndBlink(u8 *Copy_u8String,u8 Copy_u8Row,u8 Copy_u8Cell,u16 Copy_u16Delay,u8 Copy_u8Char,u8 Copy_u8BlinkCounter);
+void LCD_voidWriteCustomCharWithDelayAndPositionAndBlink(u8 Copy_u8CharIndex,u8 Copy_u8Row,u8 Copy_u8Cell,u16 Copy_u16Delay,u8 Copy_u8Char,u8 Copy_u8BlinkCounter);
+void LCD_voidWriteCustomStringWithDelayAndPositionAndBlinkAndBlink(u8 *Copy_u8String,u8 Copy_u8Row,u8 Copy_u8Cell,u16 Copy_u16Delay,u8 Copy_u8Char,u8 Copy_u8BlinkCounter,u8 Copy_u8Char2,u8 Copy_u8BlinkCounter2);
+void LCD_voidWriteCustomCharWithDelayAndPositionAndBlinkAndBlink(u8 Copy_u8CharIndex,u8 Copy_u8Row,u8 Copy_u8Cell,u16 Copy_u16Delay,u8 Copy_u8Char,u8 Copy_u8BlinkCounter,u8 Copy_u8Char2,u8 Copy_u8BlinkCounter2);
+void LCD_voidWriteCustomStringWithDelayAndPositionAndBlinkAndBlinkAndBlink(u8 *Copy_u8String,u8 Copy_u8Row,u8 Copy_u8Cell,u16 Copy_u16Delay,u8 Copy_u8Char,u8 Copy_u8BlinkCounter,u8 Copy_u8Char2,u8 Copy_u8BlinkCounter2,u8 Copy_u8Char3,u8 Copy_u8BlinkCounter3);
+void LCD_voidWriteCustomCharWithDelayAndPositionAndBlinkAndBlinkAndBlink(u8 Copy_u8CharIndex,u8 Copy_u8Row,u8 Copy_u8Cell,u16 Copy_u16Delay,u8 Copy_u8Char,u8 Copy_u8BlinkCounter,u8 Copy_u8Char2,u8 Copy_u8BlinkCounter2,u8 Copy_u8Char3,u8 Copy_u8BlinkCounter3);
+
+
+
