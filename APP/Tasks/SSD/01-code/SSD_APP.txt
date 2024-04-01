@@ -1,0 +1,189 @@
+/************************************************************************/
+/*                            Inclusion                                 */
+/************************************************************************/
+/*
+* LIB
+*/
+#include "Std_Types.h"
+#include "Utils_BitMath.h"
+#include "Utils_interrupt.h"
+
+/*
+* Include MCAL layer files
+*/
+#include "MCU_config.h"
+#include "DIO_Interface.h"
+
+/*
+* Include Services layer files
+*/
+
+/*
+* Include HAL layer files
+*/
+#include "SSD_interface.h"
+
+/************************************************************************/
+/*                           configurations                             */
+/************************************************************************/
+
+
+/*------------------------------------------------------------------------------*/
+/*                                                                              */
+/*                         Play with Seven Segment                              */
+/*                                                                              */
+/*                                                                              */
+/*------------------------------------------------------------------------------*/
+
+enum {
+	SSD_ID_TEN,
+	SSD_ID_ONE
+};
+
+void App_trafficlight(void)
+{
+	s8 i; /*<must be signed to avoid overflow */
+	/*RED*/
+	Dio_WritePin(PB5,DIO_VOLT_HIGH);
+	for (i=30 ;i>=0;i--)
+	{
+		SSD_void_display(SSD_ID_ONE,i%10);
+		SSD_void_display(SSD_ID_TEN,i/10);
+		_delay_ms(250);
+	}
+	Dio_WritePin(PB5,DIO_VOLT_LOW);
+	
+	/*YELLOW*/
+	Dio_WritePin(PB6,DIO_VOLT_HIGH);
+	for (i=5 ;i>=0;i--)
+	{
+		SSD_void_display(SSD_ID_ONE,i%10);
+		SSD_void_display(SSD_ID_TEN,i/10);
+		_delay_ms(250);
+	}
+	Dio_WritePin(PB6,DIO_VOLT_LOW);
+	
+	/*GREEN*/
+	Dio_WritePin(PB7,DIO_VOLT_HIGH);
+	for (i=30 ;i>=0;i--)
+	{
+		SSD_void_display(SSD_ID_ONE,i%10);
+		SSD_void_display(SSD_ID_TEN,i/10);
+		_delay_ms(250);
+	}
+	Dio_WritePin(PB7,DIO_VOLT_LOW);
+}
+
+
+/* ---------------------------------------------------- */
+/*                                                      */
+/*                    from 0 to 99                      */
+/*                                                      */
+/* ---------------------------------------------------- */
+void App_count0to99 (void)
+{
+	u8 i;
+	for (i=0;i<100;i++)
+	{
+		SSD_void_display(SSD_ID_ONE,i%10);
+		SSD_void_display(SSD_ID_TEN,i/10);
+		_delay_ms(250);
+	}
+}
+
+/* ---------------------------------------------------- */
+/*                                                      */
+/*                    from 0x00 to 0xff                 */
+/*                                                      */
+/* ---------------------------------------------------- */
+void App_HexCounting (void)
+{
+	u8 i;
+	for (i=0;i<256;i++)
+	{
+		SSD_void_display(SSD_ID_ONE,i&0x0f);
+		SSD_void_display(SSD_ID_TEN,(i>>4)&0x0f);
+		_delay_ms(250);
+	}
+}
+
+void App_CountAtEachPress (void)
+{
+	static s8 i=30;
+	if (30==i)
+	{
+		SSD_void_display(SSD_ID_ONE,0);
+		SSD_void_display(SSD_ID_TEN,3);
+	}
+	if (Dio_ReadPin(PB4)==DIO_VOLT_LOW)
+	{
+		i--;
+		if (i<0)
+		{
+			i=30;
+		}
+		SSD_void_display(SSD_ID_ONE,i%10);
+		SSD_void_display(SSD_ID_TEN,i/10);
+		while (Dio_ReadPin(PB4)==DIO_VOLT_LOW);
+	}
+}
+
+void App_CountDuringPress (void)
+{
+	static s8 i=99;
+	u8 timer,timerMax=50;
+	if (99==i)
+	{
+		SSD_void_display(SSD_ID_ONE,9);
+		SSD_void_display(SSD_ID_TEN,9);
+	}
+	while (Dio_ReadPin(PB4)==DIO_VOLT_LOW)
+	{
+		for (timer=timerMax; timer>0 ;timer--)
+		{
+			_delay_ms(10);
+		}
+		i--;
+		if (i<0)
+		{
+			i=99;
+		}
+		SSD_void_display(SSD_ID_ONE,i%10);
+		SSD_void_display(SSD_ID_TEN,i/10);
+		
+		if (timerMax>10)
+		{
+			timerMax=timerMax-2;
+		}
+	}
+}
+
+
+
+
+int main(void)
+{
+	/************************************************************************/
+	/*                           Initialization                             */
+	/************************************************************************/
+	Dio_Init();
+	
+	// Super_Loop
+	while (1)
+	{
+		App_CountDuringPress();
+		
+	}//while(1) Super_Loop
+	
+}//main
+
+
+/***test case 01*****/
+/*
+while (Dio_ReadPin(PB4)==DIO_VOLT_LOW)
+{
+	Dio_WritePin(PB5,DIO_VOLT_HIGH);
+	_delay_ms(60000);
+}
+Dio_WritePin(PB5,DIO_VOLT_LOW);
+*/
