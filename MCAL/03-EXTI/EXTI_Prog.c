@@ -89,6 +89,9 @@ void EXTI_SetTrigger(EXTI_Source_t EXTI_INT, EXTI_Trigger_Edge_t Trigger_Edge)
 				case RISING_EDGE:
 					set_bit(MCUCSR, MCUCSR_ISC2);
 					break;
+				default:
+					//do nothing
+				break;
 			}
 			break;
 	}
