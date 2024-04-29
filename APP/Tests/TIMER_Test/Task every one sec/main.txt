@@ -1,0 +1,94 @@
+/************************************************************************/
+/*                            Inclusion                                 */
+/************************************************************************/
+/*
+* LIB
+*/
+#include "Std_Types.h"
+#include "Utils_BitMath.h"
+#include "Utils_interrupt.h"
+
+/*
+* Include MCAL layer files
+*/
+#include "MCU_config.h"
+#include "DIO_Interface.h"
+#include "TIMERS_Interfacing.h"
+
+
+/*
+* Include Services layer files
+*/
+
+/*
+* Include HAL layer files
+*/
+#include "SSD_interface.h"
+#include "LCD_Interface.h"
+
+/* ===================================================================== */
+/*                           SSD                                         */
+/* ===================================================================== */
+enum {
+	SSD_ID_ONE,
+	SSD_ID_TEN
+};
+void App_count0to99 (void)
+{
+	u8 i;
+	for (i=0;i<100;i++)
+	{
+		SSD_void_display(SSD_ID_ONE,i%10);
+		SSD_void_display(SSD_ID_TEN,i/10);
+		_delay_ms(250);
+	}
+}
+/* ===================================================================== */
+/*                           LCD                                         */
+/* ===================================================================== */
+enum {
+	LCD_ID1,
+	LCD_ID2
+	};
+
+
+void led_task(void)
+{
+	TIMER1_SetCounterValue((u16)65536-31250);
+	Dio_TogglePin(PD7);
+}
+
+int main(void)
+{
+	/************************************************************************/
+	/*                           Initialization                             */
+	/************************************************************************/
+	Dio_Init();
+	LCD_init(LCD_ID1);
+	LCD_init(LCD_ID2);
+	
+	TIMER1_OVF_SetCallBack(led_task);
+	TIMER1_SetCounterValue((u16)65536-31250);
+	TIMER1_Init(TIMER1_NORMAL,TIMER_OCx_MODE_DICONNECTED,TIMER_OCx_MODE_DICONNECTED,TIMER_Pre_CLK_256);
+	Global_Interrupt_Enable__asm();
+	TIMER1_OVF_INT(STD_ENABLED);
+	
+	
+	u8 i=0;	
+	while (1) /*< Super_Loop */
+	{
+		// BackGround Code
+		SSD_void_display(SSD_ID_ONE,i%10);
+		SSD_void_display(SSD_ID_TEN,i/10);
+		i++;
+		if (100==i)
+		{
+			i=0;
+		}	
+		_delay_ms(1000);
+		
+	}//while(1) Super_Loop
+}//main
+
+
+

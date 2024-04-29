@@ -46,14 +46,22 @@
 
 #define   OCR1AH	   (*(volatile u8*)0x4B)   // Timer/Counter1 Output Compare Register High Byte
 #define   OCR1AL	   (*(volatile u8*)0x4A)   // Timer/Counter1 Output Compare Register Low Byte
+#define   OCR1A 	   (*(volatile u16*)0x4A)   // Timer/Counter1 Output Compare Register Low Byte
+
 #define   OCR1BH	   (*(volatile u8*)0x49)   // Timer/Counter1 Output Compare Register High Byte
 #define   OCR1BL	   (*(volatile u8*)0x48)   // Timer/Counter1 Output Compare Register Low Byte
+#define   OCR1B	       (*(volatile u16*)0x48)   // Timer/Counter1 Output Compare Register Low Byte
+
 #define   ICR1H		   (*(volatile u8*)0x47)   // Timer/Counter1 Input Capture Register High Byte
 #define   ICR1L		   (*(volatile u8*)0x46)   // Timer/Counter1 Input Capture Register Low Byte
+#define   ICR1		   (*(volatile u16*)0x46)   // Timer/Counter1 Input Capture Register Low Byte
+
 #define   TCCR1A	   (*(volatile u8*)0x4F)   // Timer/Counter1 Control Register A
 #define   TCCR1B	   (*(volatile u8*)0x4E)   // Timer/Counter1 Control Register B
+
 #define   TCNT1H	   (*(volatile u8*)0x4D)   // Timer/Counter1 Counter Register High Byte
 #define   TCNT1L	   (*(volatile u8*)0x4C)   // Timer/Counter1 Counter Register Low Byte
+#define   TCNT1	       (*(volatile u16*)0x4C)   // Timer/Counter1 Counter Register Low Byte
 
 #define   TCCR2		   (*(volatile u8*)0x45)   // Timer/Counter2 Control Register
 #define   TCNT2		   (*(volatile u8*)0x44)   // Timer/Counter2 Counter Register
